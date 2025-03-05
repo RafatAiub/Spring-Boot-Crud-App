@@ -1,6 +1,7 @@
 package com.example.crud_service.service;
 
 import com.example.crud_service.entity.User;
+import com.example.crud_service.exception.UserNotFoundException;
 import com.example.crud_service.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,8 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id)
+                .orElseThrow(()->new UserNotFoundException("user with ID "+ id + " not found"));
     }
 
     public User saveUser(User user) {
